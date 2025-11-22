@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛠️ أداة تحليل مشاريع الويب المتقدمة (Vanilla JS)</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛠️ أداة تحليل مشاريع الويب المتقدمة</h1>
+            <p>أداة متخصصة لتحليل مشاريع الويب باستخدام Vanilla JavaScript فقط - بدون أطر عمل</p>
+        </header>
+
+        <div class="controls">
+            <button id="pickFolder" class="btn btn-primary">
+                <span>📁</span> اختر مجلد المشروع
+            </button>
+            <button id="reRead" class="btn btn-secondary">
+                <span>🔄</span> إعادة القراءة
+            </button>
+            <button id="exportTxt" class="btn btn-success">
+                <span>📄</span> تصدير كمحتوى TXT
+            </button>
+            <button id="exportMd" class="btn btn-success">
+                <span>📝</span> تصدير كـ MD
+            </button>
+            <button id="exportByType" class="btn btn-warning">
+                <span>📊</span> تصدير حسب النوع مع التحليل
+            </button>
+            <!-- زر جديد للتصدير الشامل للـ AI Agent -->
+            <button id="exportForAIAgent" class="btn btn-primary" style="background-color: #8e44ad;">
+                <span>🤖</span> تصدير شامل للـ AI Agent
+            </button>
+            <button id="exportRelations" class="btn btn-primary">
+                <span>🔗</span> تصدير خريطة العلاقات
+            </button>
+            <button id="exportArchitecture" class="btn btn-secondary">
+                <span>🏗️</span> تصدير الهيكل المعماري
+            </button>
+            <button id="exportJSDoc" class="btn btn-info" style="background-color: #17a2b8;">
+                <span>📝</span> تصدير تحليل JSDoc
+            </button>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>جاري تحليل الملفات والعلاقات...</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="fileCount">0</div>
+                <div class="stat-label">عدد الملفات</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="lineCount">0</div>
+                <div class="stat-label">عدد الأسطر</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalSize">0 KB</div>
+                <div class="stat-label">الحجم الإجمالي</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="projectName">-</div>
+                <div class="stat-label">اسم المشروع</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="relationCount">0</div>
+                <div class="stat-label">التبعيات المكتشفة</div>
+            </div>
+        </div>
+
+        <!-- البحث عن الملفات -->
+        <h3>🔍 البحث عن الملفات</h3>
+        <div class="search-box">
+            <input type="text" id="fileSearchInput" placeholder="ابحث باسم الملف أو الامتداد (مثال: main.js أو .css)">
+            <button id="searchFile" class="btn btn-primary">بحث في الملفات</button>
+            <button id="clearFileSearch" class="btn btn-secondary">مسح</button>
+        </div>
+        <div id="fileSearchResults" class="search-results" style="display: none;"></div>
+
+        <!-- البحث عن الدوال -->
+        <h3>🔍 البحث عن الدوال والمكونات</h3>
+        <div class="search-box">
+            <input type="text" id="functionSearchInput" placeholder="ابحث باسم الدالة أو المكون (مثال: calculate أو Header)">
+            <button id="searchFunction" class="btn btn-primary">بحث في الدوال</button>
+            <button id="clearFunctionSearch" class="btn btn-secondary">مسح</button>
+        </div>
+        <div id="functionSearchResults" class="search-results" style="display: none;"></div>
+
+        <!-- البحث في الملفات -->
+        <h3>🔍 البحث في الملفات والمجلدات</h3>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="ابحث في الملفات والمجلدات...">
+            <button id="clearSearch" class="btn btn-secondary">مسح البحث</button>
+        </div>
+
+        <!-- فلاتر نوع الملف -->
+        <div class="file-type-filters">
+            <button class="file-type-btn active" data-type="all">الكل</button>
+            <button class="file-type-btn" data-type="html">HTML <span class="tech-badge badge-html">HTML</span></button>
+            <button class="file-type-btn" data-type="css">CSS <span class="tech-badge badge-css">CSS</span></button>
+            <button class="file-type-btn" data-type="js">JavaScript <span class="tech-badge badge-js">JS</span></button>
+            <button class="file-type-btn" data-type="json">JSON <span class="tech-badge badge-json">JSON</span></button>
+        </div>
+
+        <!-- عرض الملفات -->
+        <h3>📁 هيكل المشروع:</h3>
+        <div class="list-box" id="treeView"></div>
+
+        <!-- التحليل المعماري -->
+        <h3>🏗️ التحليل المعماري للمشروع:</h3>
+        <div class="code-analysis" id="architectureAnalysis">
+            <p>سيظهر التحليل المعماري هنا بعد تحميل المشروع...</p>
+        </div>
+
+        <!-- المحتوى المجمع -->
+        <h3>📝 المحتوى المجمّع:</h3>
+        <textarea id="output" placeholder="سيظهر محتوى الملفات هنا بعد اختيار المجلد..."></textarea>
+
+        <!-- خريطة التبعيات -->
+        <h3>🔗 خريطة التبعيات المكتشفة:</h3>
+        <div class="list-box" id="relationsView"></div>
+
+        <!-- قائمة التجاهل -->
+        <h3>📛 قائمة التجاهل (ملفات أو مجلدات):</h3>
+        <textarea id="ignoreList" placeholder="أدخل أسماء الملفات أو المجلدات التي تريد تجاهلها (سطر لكل اسم)"></textarea>
+        <div class="controls">
+            <button id="saveIgnore" class="btn btn-danger">حفظ قائمة التجاهل</button>
+            <button id="resetIgnore" class="btn btn-secondary">إعادة تعيين القائمة</button>
+        </div>
+    </div>
+
+    <!-- نافذة عرض ملف -->
+    <div id="modal">
+        <div id="modalContent">
+            <button id="modalClose">✕</button>
+            <div id="fileInfo" class="file-info"></div>
+            <div id="fileContent" class="file-content"></div>
+        </div>
+    </div>
+
+   <!-- تحديث ترتيب تحميل الملفات -->
+<script src="js/core.js"></script>
+<script src="js/relations.js"></script>
+<script src="js/jsdoc-analysis.js"></script>
+<script src="js/file-analysis.js"></script>
+<script src="js/search.js"></script>
+<script src="js/export.js"></script>
+<script src="js/architecture.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
