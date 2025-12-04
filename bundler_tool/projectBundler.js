@@ -11,6 +11,8 @@ const DEFAULT_IGNORES = [
     ".git",
     ".vscode",
     "node_modules",
+    "note",
+    "favicon.ico",
     ".DS_Store",
     "project-bundle.txt", // الملف الناتج نفسه
     "package-lock.json",
@@ -160,3 +162,4 @@ function downloadFile(content, filename) {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 }
+
