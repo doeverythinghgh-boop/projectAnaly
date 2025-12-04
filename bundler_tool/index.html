@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أداة تجميع المشروع (Project Bundler)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+        p {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        #log-area {
+            margin-top: 2rem;
+            width: 100%;
+            height: 200px;
+            background-color: #1e1e1e;
+            color: #00ff00;
+            font-family: monospace;
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: left;
+            direction: ltr;
+            overflow-y: auto;
+            box-sizing: border-box;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>أداة تجميع المشروع</h1>
+        <p>قم باختيار مجلد المشروع لتجميع كافة ملفاته في ملف نصي واحد جاهز للمشاركة مع المساعدين الأذكياء.</p>
+        
+        <button id="select-folder-btn" class="btn">اختر مجلد المشروع</button>
+        
+        <div id="log-area">Logs will appear here...</div>
+    </div>
+
+    <script type="module">
+        import { bundleProject } from './projectBundler.js';
+
+        const logArea = document.getElementById('log-area');
+        const btn = document.getElementById('select-folder-btn');
+
+        function log(message) {
+            const line = document.createElement('div');
+            line.textContent = `> ${message}`;
+            logArea.appendChild(line);
+            logArea.scrollTop = logArea.scrollHeight;
+        }
+
+        btn.addEventListener('click', () => {
+            logArea.innerHTML = ''; // Clear logs
+            bundleProject([], log);
+        });
+    </script>
+</body>
+</html>
