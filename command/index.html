@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة الإدخال</title>
+    <!-- ربط ملف التصميم الخارجي -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="container">
+        <h1>محرر النصوص البسيط</h1>
+        
+        <!-- منطقة إدخال النص -->
+        <textarea 
+            id="main-textarea" 
+            class="textarea-input" 
+            rows="10" 
+            placeholder="اكتب شيئًا هنا..."
+        ></textarea>
+        
+        <!-- حاوية الأزرار -->
+        <div class="button-container">
+            <button id="save-button" class="btn btn-primary">command</button>
+            <button id="copy-output-button" class="btn btn-success">نسخ الناتج</button>
+            <button id="clear-button" class="btn btn-secondary">قراه مشروع</button>
+            <button id="copy-input-button" class="btn">تغير اسم المتغيرات</button>
+            <button id="change-color-button" class="btn btn-info">تغير الالوان</button>
+        </div>
+
+        <!-- منطقة النص الثانية -->
+        <textarea
+            id="output-textarea"
+            class="textarea-input output-area"
+            rows="5"
+            placeholder="النتائج أو النص الثانوي يظهر هنا..."
+        ></textarea>
+    </main>
+
+    <!-- ربط ملف الجافاسكريبت (يفضل وضعه قبل إغلاق وسم الـ body) -->
+    <!-- type="module" يسمح باستخدام ميزات ES Modules الحديثة لتنظيم الكود -->
+    <script src="script.js" type="module"></script>
+
+</body>
+</html>
